@@ -781,7 +781,7 @@ export default function AdminDashboard({
                                 </div>
                               </div>
                             </td>
-                          </tr>
+        </tr>
         </>
       )}
       </tbody>
