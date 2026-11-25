@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import AdminPasswordForm from '@/components/AdminPasswordForm';
 
@@ -168,6 +168,14 @@ export default function AdminDashboard({
     if (statusFilter === 'ALL') return true;
     return o.status === statusFilter;
   });
+
+  
+  const handleDeleteProduct = async (id) => {
+    const res = await fetch(`/api/admin/products/${id}`, { method: "DELETE" });
+    if (res.ok && typeof window !== "undefined") {
+      window.location.reload();
+    }
+  };
 
   return (
     <div className="min-h-screen bg-zinc-950 flex flex-col text-zinc-100">

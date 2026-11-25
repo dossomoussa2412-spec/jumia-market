@@ -60,3 +60,17 @@ export async function PATCH(
     );
   }
 }
+
+export async function DELETE(_req, context) {
+  try {
+    const { id } = await context.params;
+    const prismaMod = await import("@/lib/prisma").catch(() => null);
+    const prisma = prismaMod?.prisma || prismaMod?.default;
+    if (prisma?.product) {
+      await prisma.product.delete({ where: { id } });
+    }
+    return Response.json({ ok: true, id });
+  } catch (err) {
+    return Response.json({ error: err?.message || "Erreur suppression" }, { status: 500 });
+  }
+}
