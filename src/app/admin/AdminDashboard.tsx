@@ -201,6 +201,9 @@ export default function AdminDashboard({
       });
       if (res.ok && typeof window !== "undefined") {
         window.location.reload();
+      } else if (typeof window !== "undefined") {
+        const errData = await res.json().catch(() => ({}));
+        window.alert(errData.error || "Impossible de modifier le produit.");
       }
     } finally {
       setSavingEdit(false);
@@ -210,8 +213,11 @@ export default function AdminDashboard({
   const handleDeleteProduct = async (id: string) => {
     const res = await fetch(`/api/admin/products/${id}`, { method: "DELETE" });
     if (res.ok && typeof window !== "undefined") {
-      window.location.reload();
-    }
+        window.location.reload();
+      } else if (typeof window !== "undefined") {
+        const errData = await res.json().catch(() => ({}));
+        window.alert(errData.error || "Impossible de modifier le produit.");
+      }
   };
 
   return (
