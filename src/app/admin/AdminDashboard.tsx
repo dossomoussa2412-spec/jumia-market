@@ -170,26 +170,40 @@ export default function AdminDashboard({
   });
 
   
-  const handleEditProduct = async (product: any) => {
-    const newName = window.prompt("Nom du produit :", product.name ?? "");
-    if (newName === null) return;
-    const newPrice = window.prompt("Prix (FCFA) :", String(product.price ?? ""));
-    if (newPrice === null) return;
-    const newStock = window.prompt("Stock :", String(product.stock ?? ""));
-    if (newStock === null) return;
+  const [editingProductId, setEditingProductId] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
+  const [editPrice, setEditPrice] = useState("");
+  const [editStock, setEditStock] = useState("");
+  const [savingEdit, setSavingEdit] = useState(false);
 
-    const res = await fetch(`/api/admin/products/${product.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: newName,
-        price: Number(newPrice),
-        stock: Number(newStock),
-      }),
-    });
+  const openEditPanel = (product: any) => {
+    if (editingProductId === product.id) {
+      setEditingProductId(null);
+      return;
+    }
+    setEditingProductId(product.id);
+    setEditName(product.name ?? "");
+    setEditPrice(String(product.price ?? ""));
+    setEditStock(String(product.stock ?? ""));
+  };
 
-    if (res.ok && typeof window !== "undefined") {
-      window.location.reload();
+  const handleSaveEdit = async (productId: string) => {
+    setSavingEdit(true);
+    try {
+      const res = await fetch(`/api/admin/products/${productId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: editName,
+          price: Number(editPrice),
+          stock: Number(editStock),
+        }),
+      });
+      if (res.ok && typeof window !== "undefined") {
+        window.location.reload();
+      }
+    } finally {
+      setSavingEdit(false);
     }
   };
 
@@ -718,7 +732,7 @@ export default function AdminDashboard({
                             </button>
                             <button
                               type="button"
-                              onClick={() => handleEditProduct(product)}
+                              onClick={() => openEditPanel(product)}
                               className="ml-2 px-3 py-1.5 rounded bg-blue-600 text-white text-xs font-medium hover:bg-blue-700"
                             >
                               Modifier
