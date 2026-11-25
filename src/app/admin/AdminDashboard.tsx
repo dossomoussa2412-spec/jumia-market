@@ -171,6 +171,10 @@ export default function AdminDashboard({
 
   
   const [openEditId, setOpenEditId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editPrice, setEditPrice] = useState(0);
+  const [editStock, setEditStock] = useState(0);
+  const [savingEdit, setSavingEdit] = useState(false);
   const [editForm, setEditForm] = useState<{ id: string; name: string; price: string; stock: string }>({
     id: "",
     name: "",
@@ -759,6 +763,52 @@ export default function AdminDashboard({
                             </button>
                           </td>
                         </tr>
+          {openEditId === product.id && (
+            <tr className="bg-zinc-900/90 border-b border-zinc-800">
+              <td colSpan={6} className="p-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+                  <input
+                    type="text"
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    placeholder="Titre du produit"
+                    className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm"
+                  />
+                  <input
+                    type="number"
+                    value={editPrice}
+                    onChange={(e) => setEditPrice(Number(e.target.value))}
+                    placeholder="Prix (FCFA)"
+                    className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm"
+                  />
+                  <input
+                    type="number"
+                    value={editStock}
+                    onChange={(e) => setEditStock(Number(e.target.value))}
+                    placeholder="Stock"
+                    className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={savingEdit}
+                    onClick={() => submitEditProduct(product.id)}
+                    className="px-3 py-1.5 rounded bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 disabled:opacity-50"
+                  >
+                    {savingEdit ? "Enregistrement..." : "Enregistrer"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setOpenEditId(null)}
+                    className="px-3 py-1.5 rounded bg-zinc-700 text-white text-xs font-medium hover:bg-zinc-600"
+                  >
+                    Annuler
+                  </button>
+                </div>
+              </td>
+            </tr>
+          )}
         </>
       );
     })}
