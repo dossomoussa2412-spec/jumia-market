@@ -693,6 +693,13 @@ export default function AdminDashboard({
                             >
                               {product.isActive ? 'Désactiver' : 'Activer'}
                             </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteProduct(product.id)}
+                              className="ml-2 px-3 py-1.5 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700"
+                            >
+                              Supprimer
+                            </button>
                           </td>
                         </tr>
                       );
