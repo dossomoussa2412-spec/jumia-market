@@ -1,4 +1,5 @@
-﻿import { NextResponse } from 'next/server';
+﻿export const dynamic = 'force-dynamic';
+import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { prisma } from '@/lib/prisma';
 import { ADMIN_COOKIE_NAME } from '@/lib/auth';
@@ -67,3 +68,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

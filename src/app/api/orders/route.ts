@@ -1,4 +1,5 @@
-﻿import { NextResponse } from 'next/server';
+﻿export const dynamic = 'force-dynamic';
+import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { generateTrackingCode, DELIVERY_ZONES } from '@/lib/utils';
 import { PaymentMethod } from '@/types';
@@ -186,5 +187,6 @@ export async function POST(request: Request) {
     );
   }
 }
+
 
 

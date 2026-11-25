@@ -1,3 +1,4 @@
+﻿export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
@@ -8,14 +9,14 @@ export async function GET(request: Request) {
 
     if (!query || query.trim() === '') {
       return NextResponse.json(
-        { error: 'Veuillez saisir un code de suivi (ex: CMD-482910) ou un numéro de téléphone.' },
+        { error: 'Veuillez saisir un code de suivi (ex: CMD-482910) ou un numÃ©ro de tÃ©lÃ©phone.' },
         { status: 400 }
       );
     }
 
     const cleanQuery = query.trim();
 
-    // Recherche par code de suivi exact ou par numéro de téléphone
+    // Recherche par code de suivi exact ou par numÃ©ro de tÃ©lÃ©phone
     const orders = await prisma.order.findMany({
       where: {
         OR: [
@@ -49,7 +50,7 @@ export async function GET(request: Request) {
       return NextResponse.json(
         {
           orders: [],
-          message: `Aucune commande trouvée correspondant à "${cleanQuery}". Vérifiez le code ou le numéro de téléphone.`,
+          message: `Aucune commande trouvÃ©e correspondant Ã  "${cleanQuery}". VÃ©rifiez le code ou le numÃ©ro de tÃ©lÃ©phone.`,
         },
         { status: 200 }
       );
@@ -66,9 +67,10 @@ export async function GET(request: Request) {
     console.error('Erreur suivi commande :', error);
     return NextResponse.json(
       {
-        error: 'Erreur lors de la recherche de votre commande. Veuillez réessayer.',
+        error: 'Erreur lors de la recherche de votre commande. Veuillez rÃ©essayer.',
       },
       { status: 500 }
     );
   }
 }
+

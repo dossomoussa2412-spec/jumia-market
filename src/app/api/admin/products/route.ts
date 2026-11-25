@@ -1,3 +1,4 @@
+﻿export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyAdminSession } from '@/lib/auth';
@@ -5,7 +6,7 @@ import { verifyAdminSession } from '@/lib/auth';
 export async function GET() {
   try {
     if (!verifyAdminSession()) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
+      return NextResponse.json({ error: 'Non autorisÃ©' }, { status: 401 });
     }
 
     const [products, categories] = await Promise.all([
@@ -21,7 +22,7 @@ export async function GET() {
     return NextResponse.json({ products, categories });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Erreur lors de la récupération des données.' },
+      { error: 'Erreur lors de la rÃ©cupÃ©ration des donnÃ©es.' },
       { status: 500 }
     );
   }
@@ -30,7 +31,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     if (!verifyAdminSession()) {
-      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
+      return NextResponse.json({ error: 'Non autorisÃ©' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
 
     if (isNaN(parsedPrice) || parsedPrice < 0) {
       return NextResponse.json(
-        { error: 'Le prix doit être un entier positif.' },
+        { error: 'Le prix doit Ãªtre un entier positif.' },
         { status: 400 }
       );
     }
@@ -74,8 +75,9 @@ export async function POST(request: Request) {
   } catch (error: any) {
     console.error('Erreur ajout produit :', error);
     return NextResponse.json(
-      { error: error.message || 'Erreur lors de la création du produit.' },
+      { error: error.message || 'Erreur lors de la crÃ©ation du produit.' },
       { status: 500 }
     );
   }
 }
+
