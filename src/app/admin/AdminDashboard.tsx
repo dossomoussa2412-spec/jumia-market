@@ -170,43 +170,49 @@ export default function AdminDashboard({
   });
 
   
-  const [editingProductId, setEditingProductId] = useState<string | null>(null);
-  const [editName, setEditName] = useState("");
-  const [editPrice, setEditPrice] = useState("");
-  const [editStock, setEditStock] = useState("");
-  const [savingEdit, setSavingEdit] = useState(false);
+  const [openEditId, setOpenEditId] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState<{ id: string; name: string; price: string; stock: string }>({
+    id: "",
+    name: "",
+    price: "",
+    stock: "",
+  });
+  const [savingEditId, setSavingEditId] = useState<string | null>(null);
 
-  const openEditPanel = (product: any) => {
-    if (editingProductId === product.id) {
-      setEditingProductId(null);
+  const toggleEditProduct = (item: any) => {
+    if (openEditId === item.id) {
+      setOpenEditId(null);
       return;
     }
-    setEditingProductId(product.id);
-    setEditName(product.name ?? "");
-    setEditPrice(String(product.price ?? ""));
-    setEditStock(String(product.stock ?? ""));
+    setOpenEditId(item.id);
+    setEditForm({
+      id: item.id,
+      name: item.name ?? "",
+      price: String(item.price ?? ""),
+      stock: String(item.stock ?? ""),
+    });
   };
 
-  const handleSaveEdit = async (productId: string) => {
-    setSavingEdit(true);
+  const submitEditProduct = async (itemId: string) => {
+    setSavingEditId(itemId);
     try {
-      const res = await fetch(`/api/admin/products/${productId}`, {
+      const res = await fetch(`/api/admin/products/${itemId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: editName,
-          price: Number(editPrice),
-          stock: Number(editStock),
+          name: editForm.name,
+          price: Number(editForm.price),
+          stock: Number(editForm.stock),
         }),
       });
       if (res.ok && typeof window !== "undefined") {
         window.location.reload();
       } else if (typeof window !== "undefined") {
-        const errData = await res.json().catch(() => ({}));
-        window.alert(errData.error || "Impossible de modifier le produit.");
+        const err = await res.json().catch(() => ({}));
+        window.alert(err.error || "Erreur lors de la modification");
       }
     } finally {
-      setSavingEdit(false);
+      setSavingEditId(null);
     }
   };
 
@@ -738,7 +744,7 @@ export default function AdminDashboard({
                             </button>
                             <button
                               type="button"
-                              onClick={() => openEditPanel(product)}
+                              onClick={() => toggleEditProduct(product)}
                               className="ml-2 px-3 py-1.5 rounded bg-blue-600 text-white text-xs font-medium hover:bg-blue-700"
                             >
                               Modifier
@@ -752,6 +758,30 @@ export default function AdminDashboard({
                             </button>
                           </td>
                         </tr>
+                        {openEditId === product.id && (
+                          <tr className="bg-zinc-900 border-b border-zinc-800">
+                            <td colSpan={6} className="px-4 py-3">
+                              <div className="flex flex-wrap items-end gap-3">
+                                <div className="flex-1 min-w-[200px]">
+                                  <label className="block text-xs text-zinc-400 mb-1">Produit</label>
+                                  <input type="text" value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm" />
+                                </div>
+                                <div className="w-36">
+                                  <label className="block text-xs text-zinc-400 mb-1">Prix (FCFA)</label>
+                                  <input type="number" value={editForm.price} onChange={(e) => setEditForm({ ...editForm, price: e.target.value })} className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm" />
+                                </div>
+                                <div className="w-28">
+                                  <label className="block text-xs text-zinc-400 mb-1">Stock</label>
+                                  <input type="number" value={editForm.stock} onChange={(e) => setEditForm({ ...editForm, stock: e.target.value })} className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm" />
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <button type="button" disabled={savingEditId === product.id} onClick={() => submitEditProduct(product.id)} className="px-3 py-1.5 rounded bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 disabled:opacity-50">{savingEditId === product.id ? "Enregistrement..." : "Enregistrer"}</button>
+                                  <button type="button" onClick={() => setOpenEditId(null)} className="px-3 py-1.5 rounded bg-zinc-700 text-white text-xs font-medium hover:bg-zinc-600">Annuler</button>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
                       );
                     })}
                   </tbody>
