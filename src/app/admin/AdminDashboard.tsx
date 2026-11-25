@@ -170,6 +170,29 @@ export default function AdminDashboard({
   });
 
   
+  const handleEditProduct = async (product: any) => {
+    const newName = window.prompt("Nom du produit :", product.name ?? "");
+    if (newName === null) return;
+    const newPrice = window.prompt("Prix (FCFA) :", String(product.price ?? ""));
+    if (newPrice === null) return;
+    const newStock = window.prompt("Stock :", String(product.stock ?? ""));
+    if (newStock === null) return;
+
+    const res = await fetch(`/api/admin/products/${product.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: newName,
+        price: Number(newPrice),
+        stock: Number(newStock),
+      }),
+    });
+
+    if (res.ok && typeof window !== "undefined") {
+      window.location.reload();
+    }
+  };
+
   const handleDeleteProduct = async (id: string) => {
     const res = await fetch(`/api/admin/products/${id}`, { method: "DELETE" });
     if (res.ok && typeof window !== "undefined") {
