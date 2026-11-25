@@ -64,8 +64,7 @@ export async function PATCH(
 export async function DELETE(_req: NextRequest, context: { params: Promise<{ id: string }> | { id: string } }) {
   try {
     const { id } = await context.params;
-    const prismaMod = await import("@/lib/prisma").catch(() => null);
-    const prisma = prismaMod?.prisma || prismaMod?.default;
+    // Utilisation directe de l'instance prisma importee en haut du fichier
     if (prisma?.product) {
       await prisma.product.delete({ where: { id } });
     }
