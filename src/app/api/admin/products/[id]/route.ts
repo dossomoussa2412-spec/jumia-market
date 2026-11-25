@@ -70,6 +70,6 @@ export async function DELETE(_req: NextRequest, context: { params: Promise<{ id:
     }
     return Response.json({ ok: true, id });
   } catch (err) {
-    return Response.json({ error: err?.message || "Erreur suppression" }, { status: 500 });
+    return Response.json({ error: (err instanceof Error ? err.message : undefined) || "Erreur suppression" }, { status: 500 });
   }
 }
