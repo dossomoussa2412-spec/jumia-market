@@ -718,6 +718,13 @@ export default function AdminDashboard({
                             </button>
                             <button
                               type="button"
+                              onClick={() => handleEditProduct(product)}
+                              className="ml-2 px-3 py-1.5 rounded bg-blue-600 text-white text-xs font-medium hover:bg-blue-700"
+                            >
+                              Modifier
+                            </button>
+                            <button
+                              type="button"
                               onClick={() => handleDeleteProduct(product.id)}
                               className="ml-2 px-3 py-1.5 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700"
                             >
