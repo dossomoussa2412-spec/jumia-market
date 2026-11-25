@@ -764,18 +764,18 @@ export default function AdminDashboard({
                               <div className="flex flex-wrap items-end gap-3">
                                 <div className="flex-1 min-w-[200px]">
                                   <label className="block text-xs text-zinc-400 mb-1">Produit</label>
-                                  <input type="text" value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm" />
+                                  <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm" />
                                 </div>
                                 <div className="w-36">
                                   <label className="block text-xs text-zinc-400 mb-1">Prix (FCFA)</label>
-                                  <input type="number" value={editForm.price} onChange={(e) => setEditForm({ ...editForm, price: e.target.value })} className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm" />
+                                  <input type="number" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm" />
                                 </div>
                                 <div className="w-28">
                                   <label className="block text-xs text-zinc-400 mb-1">Stock</label>
-                                  <input type="number" value={editForm.stock} onChange={(e) => setEditForm({ ...editForm, stock: e.target.value })} className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm" />
+                                  <input type="number" value={editStock} onChange={(e) => setEditStock(e.target.value)} className="w-full px-3 py-1.5 rounded bg-zinc-950 border border-zinc-700 text-white text-sm" />
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <button type="button" disabled={savingEditId === product.id} onClick={() => submitEditProduct(product.id)} className="px-3 py-1.5 rounded bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 disabled:opacity-50">{savingEditId === product.id ? "Enregistrement..." : "Enregistrer"}</button>
+                                  <button type="button" disabled={savingEdit} onClick={() => submitEditProduct(product.id)} className="px-3 py-1.5 rounded bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 disabled:opacity-50">{savingEdit ? "Enregistrement..." : "Enregistrer"}</button>
                                   <button type="button" onClick={() => setOpenEditId(null)} className="px-3 py-1.5 rounded bg-zinc-700 text-white text-xs font-medium hover:bg-zinc-600">Annuler</button>
                                 </div>
                               </div>
