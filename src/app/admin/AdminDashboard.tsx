@@ -170,7 +170,7 @@ export default function AdminDashboard({
   });
 
   
-  const handleDeleteProduct = async (id) => {
+  const handleDeleteProduct = async (id: string) => {
     const res = await fetch(`/api/admin/products/${id}`, { method: "DELETE" });
     if (res.ok && typeof window !== "undefined") {
       window.location.reload();
